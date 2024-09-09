@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import logo_eamac from '/EAMAC.jpg';
 export default function Login()
 {
+   
     return(
         <section className="bg-gray-300 dark:bg-gray-900">
            <div className='flex flex-col items-center justify-center mx-auto md:h-screen lg:py-0'>
