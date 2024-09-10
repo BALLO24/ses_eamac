@@ -1,114 +1,32 @@
 import { Link } from "react-router-dom"
 import logo_eamac from '/EAMAC.jpg';
-import { useState } from "react";
 import * as  Yup from 'yup';
-//import { useFormik } from "formik";
-import { Form,Field,ErrorMessage, Formik,useFormik } from "formik";
-
-
-
+import { dataStudents } from "../data";
+import { Form,Field,ErrorMessage, Formik} from "formik";
+import axios from "../../config/axios";
 
 export default function Registration(){
-    const dataStudents=[
-        {
-            'name':"IEAMAC/EI 19",
-            'value':1
-        },
-        {
-            'name':"IEAMAC/NA 19",
-            'value':2
-        },
-        {
-            'name':"IEAMAC/MTO 19",
-            'value':3
-        }
-    ]
-    const dataTrainee=[
-        {
-            'name':"Autocom 24",
-            'value':4
-        },
-        {
-            'name':"VSAT 24",
-            'value':5
-        },
-        {
-            'name':"Controle en route 24",
-            'value':6
-        },
-        {
-            'name':"Equipements MTO",
-            'value':7
-        }
-    ]
-
-
-    const dataTeachers=[
-        {
-            'name':"permanent",
-            'value':8
-        },
-        {
-            'name':"vacataire",
-            'value':9
-        },
-        {
-            'name':"Instructeur",
-            'value':10
-        }
-        
-    ]
-
-    const [categories,setCategories]=useState('');
-    const [groupe,setGroupe]=useState('Promotion');
-    const [data,setData]=useState(dataStudents);
-
-    const handleCatgories=(e)=>{
-        setCategories(e.target.value);
-        
-        if(e.target.value==='3'){
-            setData(dataTeachers);
-            setGroupe("Type");
-        }
-        else if(e.target.value==='2'){
-            setData(dataTrainee)
-            setGroupe("Stage")
-        }
-        else{
-            setData(dataStudents);
-            setGroupe("Promotion");
-        }
-
-    }
-
+   
     const validationSchema=Yup.object().shape({
         nom:Yup.string().required('Le nom est obligatoire'),
         prenom:Yup.string().required('Le prenom est obligatoire'),
         email:Yup.string().required("L'adresse email est obligaoire").email("Veuillez choisir une adresse mail valide"),
-        categories:Yup.string("").required("Ce champ est obligatoire"),
-        groupe:Yup.string("").required("Ce champ est obligatoire")
+        promotion:Yup.string("").required("Ce champ est obligatoire"),
     })
 
     const initialValues={
         nom:"",
         prenom:"",
         email:"",
-        categories:"",
-        groupe:""
+        promotion:"",
     }
-    const handleSubmit=()=>{
-        console.log("submitted");
+    const handleSubmit=(values)=>{
+        axios.post('/insert',values)
+        .then(res => console.log(res))
+        .catch((err)=>console.log(err)
+        )
         
   }
-    const formik=useFormik({
-        initialValues,
-        onSubmit:handleSubmit,
-        validationSchema
-    })
-
-
-
-    console.log(formik.values);
     
     return(
         <section className="bg-gray-300 dark:bg-gray-900">
@@ -121,9 +39,9 @@ export default function Registration(){
                     <div className='p-6 space-y-4 md:space-y-2 sm:p-8'>
                         <h1 className='text-xl font-bold leading-tight tracking-tight text-blue-900 md:text-2xl dark:text-white'>Inscrivez-vous sur SES</h1>
                        <Formik
-                       initialValues={initialValues}
-                       validationSchema={validationSchema}
-                       onSubmit={handleSubmit}
+                            initialValues={initialValues}
+                            validationSchema={validationSchema}
+                            onSubmit={handleSubmit}
                        >
                             {
                                 (formik)=>(
@@ -144,27 +62,10 @@ export default function Registration(){
                                         <ErrorMessage name="email" className="text-red-500" component="span"></ErrorMessage>
                                     </div>
                                     <div>
-                                        <label htmlFor="categories"className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Categorie</label>
-                                        <Field as="select" name="categories"  id="categories"  className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-                                            <option value="" selected>Choisir une catégorie---</option>
-                                            <option value="1">Eleve</option>
-                                            <option value="2">Stagiaire</option>
-                                            <option value="3">Professeur</option>
-                                        </Field>
-                                        <ErrorMessage name="categories" className="text-red-500" component="span"></ErrorMessage>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="groupe"className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>{groupe}</label>
-                                        <Field as="select" name="groupe" id="groupe"className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                        <label htmlFor="promotion"className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Promotion</label>
+                                        <Field as="select" name="promotion" id="groupe"className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
                                             <option value="" selected>Choisir une promotion ---</option>
-                                            {/* <option value="1">IEAMAC EI/19</option>
-                                            <option value="2">IEAMAC NA/19</option>
-                                            <option value="3">IEAMAC MTO/19</option> */}
-                                            {
-                                                data.map(option=>{
-                                                    return(<option key={option.value} value={option.value}>{option.name}</option>)
-                                                })
-                                            }
+                                            {dataStudents.map(option=>{ return(<option key={option.value} value={option.value}>{option.name}</option>)})}
                                         </Field>
                                         <ErrorMessage name="groupe" className="text-red-500" component="span"></ErrorMessage>
                                     </div>
@@ -175,10 +76,8 @@ export default function Registration(){
                                         <Link to="/" className='text-md font-medium text-blue-700'>Se connecter</Link><br />
                                     </div>
                                 </Form>
-        
                                 )
                             }
-                      
                         </Formik> 
                     </div>
                 </div>

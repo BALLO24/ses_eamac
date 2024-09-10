@@ -36,13 +36,13 @@ export default function Login()
                             </div>
                             <div className="relative">
                                 {/* <Link to="/registration" className='text-md font-medium text-blue-700'>Inscription</Link><br /> */}
-                                <button id="dropdownButton"data-dropdown-toggle="dropdown" onClick={()=>setOpenRegisterList(!openRegisterList)}>Inscription</button>
+                                <button id="dropdownButton"data-dropdown-toggle="dropdown" type="button" onClick={()=>setOpenRegisterList(!openRegisterList)}>Inscription</button>
                                 {
                                     openRegisterList &&
                                     <div id="dropdown" className=" bg-zinc-200 p-2 rounded-lg z-10 absolute left-20">
                                     <ul aria-labelledby="dropdownButton" className="font-medium">
                                         <li>
-                                            <Link to="/registration">Eleve</Link>
+                                            <Link to="/student-registration">Eleve</Link>
                                         </li>
                                        
                                         <li>

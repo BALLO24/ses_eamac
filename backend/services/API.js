@@ -1,6 +1,5 @@
-import axios from 'axios'
 export default{
-    getStudents(){
-        return axios.get('')
+    insertStudent(Students){
+       console.log(Students);
     }
 }
