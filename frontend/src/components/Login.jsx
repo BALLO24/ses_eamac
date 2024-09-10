@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import logo_eamac from '/EAMAC.jpg';
+import { useState } from "react";
 export default function Login()
-{
+{   const [openRegisterList,setOpenRegisterList]=useState(false);
    
     return(
         <section className="bg-gray-300 dark:bg-gray-900">
@@ -33,9 +34,28 @@ export default function Login()
                             <div className='flex justify-center items-center'>
                                 <button type="submit" className="text-white block w-60 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Se connecter</button>
                             </div>
-                            <div>
-                                <Link to="/registration" className='text-md font-medium text-blue-700'>Inscription</Link><br />
-                                <Link to="/reset_password" className='text-md font-medium text-blue-700'>Mot de passe oublié ?</Link><br />
+                            <div className="relative">
+                                {/* <Link to="/registration" className='text-md font-medium text-blue-700'>Inscription</Link><br /> */}
+                                <button id="dropdownButton"data-dropdown-toggle="dropdown" onClick={()=>setOpenRegisterList(!openRegisterList)}>Inscription</button>
+                                {
+                                    openRegisterList &&
+                                    <div id="dropdown" className=" bg-zinc-200 p-2 rounded-lg z-10 absolute left-20">
+                                    <ul aria-labelledby="dropdownButton" className="font-medium">
+                                        <li>
+                                            <Link to="/registration">Eleve</Link>
+                                        </li>
+                                       
+                                        <li>
+                                            <Link to="/">Stagiaire</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/">Professeur</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                                }
+                                <br />
+                                <Link to="/reset_password" className='text-md font-medium text-blue-700 w-6'>Mot de passe oublié ?</Link><br />
                                 <Link to="/need_help" className='text-md font-medium text-blue-700'>Besoin d&rsquo;aide ?</Link>
                             </div>
                         </form>

@@ -85,8 +85,8 @@ export default function Registration(){
         nom:Yup.string().required('Le nom est obligatoire'),
         prenom:Yup.string().required('Le prenom est obligatoire'),
         email:Yup.string().required("L'adresse email est obligaoire").email("Veuillez choisir une adresse mail valide"),
-        categories:Yup.string("").required("Un choix est obligatoire"),
-        groupe:Yup.string("").required("Un choix est obligatoire")
+        categories:Yup.string("").required("Ce champ est obligatoire"),
+        groupe:Yup.string("").required("Ce champ est obligatoire")
     })
 
     const initialValues={
