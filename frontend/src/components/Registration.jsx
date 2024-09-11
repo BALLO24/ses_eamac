@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 import logo_eamac from '/EAMAC.jpg';
 import * as  Yup from 'yup';
+import axios from "../../config/axiosConfig";
 import { dataStudents } from "../data";
 import { Form,Field,ErrorMessage, Formik} from "formik";
-import axios from "../../config/axios";
 
 export default function Registration(){
    
@@ -35,7 +35,7 @@ export default function Registration(){
                     <div className='flex justify-center items-center mt-4'>
                         <img src={logo_eamac} alt="logo EAMAC"className='block h-20 w-auto' />
                     </div>
-                    
+                    <div>{axios.defaults.baseURL}</div>
                     <div className='p-6 space-y-4 md:space-y-2 sm:p-8'>
                         <h1 className='text-xl font-bold leading-tight tracking-tight text-blue-900 md:text-2xl dark:text-white'>Inscrivez-vous sur SES</h1>
                        <Formik

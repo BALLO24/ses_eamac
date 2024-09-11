@@ -8,8 +8,7 @@ app.use(express.json());
 db.connect((err)=>{!err ? console.log("Connection database OK"):console.log(err)})
 
 app.post('/insert',(req,res)=>{
-    console.log(req.body);
-    
+    console.log(req.body);    
 })
 
 app.listen(5000, ()=>console.log("Listening....."));
