@@ -1,21 +1,14 @@
 import { generate } from "generate-password";
-import bcrypt from 'bcrypt';
 
-export async function  randomPassword(taille){
-    const salt=10;
+export function  randomPassword(taille){
     
-    // const password=generate({
-    //     length:taille,
-    //     numbers:true,
-    //     symbols:true,
-    //     uppercase:true,
-    //     excludeSimilarCharacters:true,
-    //     strict:true })
-    const password=1212;
-
-        
-        const hashPassword= await bcrypt.hash(password.toString(),salt)
-             return hashPassword
-
- 
-    }
+    const password=generate({
+        length:taille,
+        numbers:true,
+        symbols:false,
+        uppercase:true,
+        excludeSimilarCharacters:true,
+        strict:true,
+    })
+    return password;
+}
