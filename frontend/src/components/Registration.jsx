@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import logo_eamac from '/EAMAC.jpg';
 import * as  Yup from 'yup';
 import axios from "../../config/axiosConfig";
-import { dataStudents } from "../data";
+import { dataClasses } from "../data";
 import { Form, Field, ErrorMessage, Formik } from "formik";
 import Swal from 'sweetalert2';
 import { useState } from "react";
@@ -13,15 +13,17 @@ export default function Registration() {
     const validationSchema = Yup.object().shape({
         nom: Yup.string().required('Le nom est obligatoire'),
         prenom: Yup.string().required('Le prenom est obligatoire'),
+        telephone: Yup.string().required('Le numero est obligatoire'),
         email: Yup.string().required("L'adresse email est obligaoire").email("Veuillez choisir une adresse mail valide"),
-        promotion: Yup.string("").required("Ce champ est obligatoire"),
+        classe: Yup.string("").required("Ce champ est obligatoire"),
     })
 
     const initialValues = {
         nom: "",
         prenom: "",
+        telephone: "",
         email: "",
-        promotion: "",
+        classe: "",
     }
     const handleSubmit = (values) => {
         axios.post('/insertStudent', values)
@@ -78,17 +80,22 @@ export default function Registration() {
                                             <ErrorMessage name="prenom" className="text-red-500" component="span"></ErrorMessage>
                                         </div>
                                         <div>
+                                            <label htmlFor="telephone" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Téléphone</label>
+                                            <Field type="tel" name="telephone" id="telephone" className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Veuillez saisir votre Nom'></Field>
+                                            <ErrorMessage name="telephone" className="text-red-500" component="span"></ErrorMessage>
+                                        </div>
+                                        <div>
                                             <label htmlFor="email" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Email</label>
                                             <Field type="email" name="email" id="email" className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Veuillez saisir votre Nom'></Field>
                                             <ErrorMessage name="email" className="text-red-500" component="span"></ErrorMessage>
                                         </div>
                                         <div>
-                                            <label htmlFor="promotion" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Promotion</label>
-                                            <Field as="select" name="promotion" id="groupe" className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-                                                <option value="" selected>Choisir une promotion ---</option>
-                                                {dataStudents.map(option => { return (<option key={option.value} value={option.value}>{option.name}</option>) })}
+                                            <label htmlFor="classe" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Classe</label>
+                                            <Field as="select" name="classe" id="classe" className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                                <option value="" selected>Choisir votre classe ---</option>
+                                                {dataClasses.map(option => { return (<option key={option.value} value={option.value}>{option.name}</option>) })}
                                             </Field>
-                                            <ErrorMessage name="groupe" className="text-red-500" component="span"></ErrorMessage>
+                                            <ErrorMessage name="classe" className="text-red-500" component="span"></ErrorMessage>
                                         </div>
                                         <div className='flex justify-center items-center'>
                                             <button type="submit" className=" text-white flex  justify-center w-60 bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
