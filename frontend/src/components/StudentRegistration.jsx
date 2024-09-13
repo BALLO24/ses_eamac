@@ -7,7 +7,7 @@ import { Form, Field, ErrorMessage, Formik } from "formik";
 import Swal from 'sweetalert2';
 import { useState } from "react";
 
-export default function Registration() {
+export default function StudentRegistration() {
 
     const [isDisabled,setIsDisabled]=useState(true)
     const validationSchema = Yup.object().shape({
@@ -90,9 +90,9 @@ export default function Registration() {
                                             <ErrorMessage name="email" className="text-red-500" component="span"></ErrorMessage>
                                         </div>
                                         <div>
-                                            <label htmlFor="classe" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Classe</label>
+                                            <label htmlFor="classe" className='block mb-2 text-sm font-medium text-gray-900 md:text-xl dark:text-white'>Type</label>
                                             <Field as="select" name="classe" id="classe" className='block w-full p-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus-border-primary-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
-                                                <option value="" selected>Choisir votre classe ---</option>
+                                                <option value="" selected>Choisir votre type ---</option>
                                                 {dataClasses.map(option => { return (<option key={option.value} value={option.value}>{option.name}</option>) })}
                                             </Field>
                                             <ErrorMessage name="classe" className="text-red-500" component="span"></ErrorMessage>

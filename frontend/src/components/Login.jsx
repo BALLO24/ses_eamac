@@ -46,10 +46,10 @@ export default function Login()
                                         </li>
                                        
                                         <li>
-                                            <Link to="/">Stagiaire</Link>
+                                            <Link to="/stagiaire-registration">Stagiaire</Link>
                                         </li>
                                         <li>
-                                            <Link to="/">Professeur</Link>
+                                            <Link to="/teacher-registration">Professeur</Link>
                                         </li>
                                     </ul>
                                 </div>

@@ -12,3 +12,40 @@ export const dataClasses=[
         'value':3
     }
 ]
+
+export const dataTeachers=[
+    {
+        'name':"Instructeur",
+        'value':1
+    },
+    {
+        'name':"Contractuel",
+        'value':2
+    },
+    {
+        'name':"Vacataire",
+        'value':3
+    }
+]
+
+export const dataStagiaires=[
+    {
+        'name':"Voix et données",
+        'value':1
+    },
+    {
+        'name':"VSAT",
+        'value':2
+    },
+    {
+        'name':"Equipement MTO",
+        'value':3
+    },
+    {
+        'name':"Controle en route",
+        'value':4
+    }
+]
+
+
+
