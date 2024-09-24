@@ -1,18 +1,38 @@
 import express from "express";
 import cors from 'cors';
-import { db } from "./config/db.js";
+//import { db } from "./config/db.js";
 import { randomPassword, uuid } from "./services/functions.js";
 import { hash } from "bcrypt";
 import bcrypt from 'bcrypt';
 import { sendGmail } from "./services/functions.js";
+import { isUserExist } from "./services/functions.js";
 const salt = 10;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-db.connect((err) => { !err ? console.log("Connection database OK") : console.log(err) })
+//db.connect((err) => { !err ? console.log("Connection database OK") : console.log(err) })
 
-app.post('/insertStudent', async (req, res) => {
+app.post('/login',async (req,res)=>{
+   if((await isUserExist(req.body.email,req.body.mdp)).erreur){
+    res.status(401).send('error')
+    console.log("il y a erreur");
+    
+   }
+    else if((await isUserExist(req.body.email,req.body.mdp)).isExist){
+        console.log("Il exisite");
+        
+        res.status(200).send("success")
+    }
+    else{
+        res.status(200).send("success")        
+    }
+// console.log((await isUserExist(req.body.email,req.body.mdp)).isExist);
+// res.status(200).send("success")
+
+})
+
+app.post('/insertStudent', async (req,res) => {
     
     sendGmail(req.body.email);
     res.status(200).send("success")

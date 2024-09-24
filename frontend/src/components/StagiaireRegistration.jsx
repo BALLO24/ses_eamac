@@ -16,7 +16,7 @@ export default function StagiaireRegistration() {
         prenom: Yup.string().required('Le prenom est obligatoire'),
         telephone: Yup.string().required('Le numero est obligatoire'),
         email: Yup.string().required("L'adresse email est obligaoire").email("Veuillez choisir une adresse mail valide"),
-        classe: Yup.string("").required("Ce champ est obligatoire"),
+        classe: Yup.string().required("Ce champ est obligatoire"),
     })
 
     const initialValues = {
