@@ -55,9 +55,11 @@ export async function isUserExist(email,mdp) {
   const user = {
     erreur: false,
     isExist: false,
+    userInfo:{
+      
+    }
   };
   const db=await createConnection();
-
 
   const sql = "SELECT * FROM utilisateur WHERE email= ? AND mdp = ? ";
 
@@ -65,37 +67,30 @@ export async function isUserExist(email,mdp) {
     const [rows,fields]=await db.execute(sql, [email,mdp])
     console.log("Resultats",rows);
     if(rows.length>0){
-      user.isExist=true
-    }
-    
+      user.isExist=true,
+      user.userInfo={...rows[0]}
+    }    
   }
   catch(e){
     user.erreur=true
-    
   }
   return user
-    // try{
-    //   var newUser={...user}
-    //   await db.query(sql, [email,mdp],(err,data)=>{
-    //     if (err) {
-          
-    //       newUser.erreur=true
-    //     }
-    //     else if(data.length>0){
-    //       newUser.isExist=true
-    //     }
-    //     else{
-    //       newUser.erreur=false
-    //       newUser.isExist=false
-    //     }
-    //   })
-    //   return newUser
+}
 
-    // }
-    // catch(e){
-    //   console.log(e);
+export async function isEleve(idUser){
+  const isEleve=false
+  const db=await createConnection();
+  const sql = "SELECT * FROM eleve WHERE id_eleve= ?";
+  try{
+    const [rows,fields]=await db.execute(sql, [idUser])
+    console.log("Resultats",rows);
+    if(rows.length>0){
+      isEleve=true
+    }    
+  }
+  catch(e){
+    throw e;
+  }
+  return isEleve
 
-    // }
-    
- // return newUser
 }

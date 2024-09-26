@@ -3,10 +3,10 @@ import logo_eamac from '/EAMAC.jpg';
 import { useState } from "react";
 import { Formik,Form,Field,ErrorMessage } from "formik";
 import * as  Yup from 'yup';
-import axios from "axios";
+import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import AlertSuccess from "./AlertSuccess";
 
 export default function Login()
 {   
@@ -24,8 +24,18 @@ export default function Login()
     const handleSubmit=(values)=>{
         axios.post("/login",values)
         .then(res=>{
-            if(res.status===200){
-                navigate("/student-board")
+            if(res.data=="success"){
+                // navigate("/student-board")
+                alert("success")
+            }
+            else if(res.data=="nExistePas"){
+                alert("Il n'existe pas");
+            }
+            else if(res.data=="erreur"){
+                alert("erreur")
+            }
+            else if(res.data=="eleve"){
+                alert("eleve")
             }
         })
         .catch(err=>{
