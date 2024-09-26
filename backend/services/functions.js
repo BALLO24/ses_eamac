@@ -69,6 +69,7 @@ export async function isUserExist(email,mdp) {
     if(rows.length>0){
       user.isExist=true,
       user.userInfo={...rows[0]}
+      user.role=''
     }    
   }
   catch(e){
@@ -77,8 +78,9 @@ export async function isUserExist(email,mdp) {
   return user
 }
 
+//verifier si le user est un eleve
 export async function isEleve(idUser){
-  const isEleve=false
+  let isEleve=false
   const db=await createConnection();
   const sql = "SELECT * FROM eleve WHERE id_eleve= ?";
   try{
@@ -92,5 +94,23 @@ export async function isEleve(idUser){
     throw e;
   }
   return isEleve
-
 }
+
+//verifier si le user est un stagiaire
+export async function isStagiaire(idUser){
+  let isStagiaire=false
+  const db=await createConnection();
+  const sql = "SELECT * FROM stagiaire WHERE id_stagiaire= ?";
+  try{
+    const [rows,fields]=await db.execute(sql, [idUser])
+    console.log("Resultats",rows);
+    if(rows.length>0){
+      isStagiaire=true
+    }    
+  }
+  catch(e){
+    throw e;
+  }
+  return isStagiaire;
+}
+

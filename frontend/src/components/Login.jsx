@@ -37,6 +37,10 @@ export default function Login()
             else if(res.data=="eleve"){
                 alert("eleve")
             }
+            else if(res.data=="pasEleve")
+                alert("Pas eleve")
+            else if(res.data=="stagiaire")
+                alert("stagiaire")
         })
         .catch(err=>{
             console.log(err);

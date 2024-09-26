@@ -4,9 +4,7 @@ import cors from 'cors';
 import { randomPassword, uuid } from "./services/functions.js";
 import { hash } from "bcrypt";
 import bcrypt from 'bcrypt';
-import { sendGmail } from "./services/functions.js";
-import { isUserExist } from "./services/functions.js";
-import { isEleve } from "./services/functions.js";
+import {sendGmail,isUserExist,isEleve,isStagiaire } from "./services/functions.js";
 const salt = 10;
 
 const app = express();
@@ -15,31 +13,35 @@ app.use(express.json());
 //db.connect((err) => { !err ? console.log("Connection database OK") : console.log(err) })
 
 app.post('/login',async (req,res)=>{
-    
-   if((await isUserExist(req.body.email,req.body.mdp)).erreur){
+    const email=req.body.email;
+    const mdp=req.body.mdp
+   if((await isUserExist(email,mdp)).erreur){
     
     console.log("il y a erreur");
     res.send('erreur')
    }
     
     else{
-        if(!(await isUserExist(req.body.email,req.body.mdp)).isExist){
+        if(!(await isUserExist(email,mdp)).isExist){
             console.log("Il n'existe pas");
             res.send("nExistePas");
         }
         else{
-            if(isEleve){
+            const user=await isUserExist(email,mdp);            
+            if(await isEleve((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
                 console.log("Il existe et il est élève");
+                user.role="eleve";
+                console.log(user);
+                
                 res.send('eleve')
             }
             else{
-                console.log("Il existe mais il n'est pas élève")
-                res.send('pasEleve')
+                if(await isStagiaire((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
+                    console.log("Il existe et il est stagiaire");
+                    user.role="stagiaire";
+                    res.send('stagiaire')
+                }
             }
-           
-            // res.send("success");
-            // console.log((await isUserExist(req.body.email,req.body.mdp)).userInfo.id_utilisateur);
-            
         }
                
     }
