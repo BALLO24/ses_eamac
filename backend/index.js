@@ -27,22 +27,33 @@ app.post('/login',async (req,res)=>{
             res.send("nExistePas");
         }
         else{
-            const user=await isUserExist(email,mdp);            
-            if(await isEleve((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
-                console.log("Il existe et il est élève");
-                user.role="eleve";
-                console.log(user);
+            const user=await isUserExist(email,mdp);      
+            // switch(user.userInfo.role){
+            //     case "eleve":
+            //         res.send("eleve");
+            //         break;
+            //     case "stagiaire":
+            //         res.send("stagiaire");
+            //         break;
+            //     default:
+            //         res.send("enseignant");
+            //         break;
+            }
+            // if(await isEleve((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
+            //     console.log("Il existe et il est élève");
+            //     user.role="eleve";
+            //     console.log(user);
                 
-                res.send('eleve')
-            }
-            else{
-                if(await isStagiaire((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
-                    console.log("Il existe et il est stagiaire");
-                    user.role="stagiaire";
-                    res.send('stagiaire')
-                }
-            }
-        }
+            //     res.send('eleve')
+            // }
+            // else{
+            //     if(await isStagiaire((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
+            //         console.log("Il existe et il est stagiaire");
+            //         user.role="stagiaire";
+            //         res.send('stagiaire')
+            //     }
+            // }
+        //}
                
     }
 })
@@ -86,6 +97,12 @@ app.post('/insertStudent', async (req,res) => {
     //         })
     //     }
     // })
+})
+
+app.post("/findClasse",(req,res)=>{
+    console.log(req.body);
+    res.send("1eigfhrt")
+    
 })
 
 app.listen(5000, () => console.log("Listening....."));

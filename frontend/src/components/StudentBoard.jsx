@@ -1,6 +1,9 @@
 import DataTable from "react-data-table-component";
 import logo_eamac from '/EAMAC.jpg';
 import { Logout } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+
 export default function StudentBoard() {
     const columns = [
         {
@@ -33,6 +36,15 @@ export default function StudentBoard() {
             evaluer: "oui",
         }
     ]
+
+    const location=useLocation();
+    useEffect(()=>{
+        const user=location.state?.user;
+        console.log(user);
+    },[]);
+    
+    
+
     const customStyles = {
         headCells: {
             style: {

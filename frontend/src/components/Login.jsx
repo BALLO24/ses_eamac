@@ -24,23 +24,24 @@ export default function Login()
     const handleSubmit=(values)=>{
         axios.post("/login",values)
         .then(res=>{
-            if(res.data=="success"){
-                // navigate("/student-board")
-                alert("success")
+            
+            switch(res.data.role){
+                case "eleve":
+                    let studentInfo={}
+                    axios.post("/findClasse",res.data.id_utilisateur)
+                    .then(res2=>{
+                        studentInfo={...res.data,...res2.data.id_classe}
+                        navigate("/student-board",{state:{user:studentInfo}})
+                    })
+                    
+                break;
+                case "stagiaire":
+                    navigate("/stagiaire-board",{state:{user:res.data.user}});
+                break;
+                default:
+                    navigate("/teacher-board",{state:{user:res.data}});
             }
-            else if(res.data=="nExistePas"){
-                alert("Il n'existe pas");
-            }
-            else if(res.data=="erreur"){
-                alert("erreur")
-            }
-            else if(res.data=="eleve"){
-                alert("eleve")
-            }
-            else if(res.data=="pasEleve")
-                alert("Pas eleve")
-            else if(res.data=="stagiaire")
-                alert("stagiaire")
+          
         })
         .catch(err=>{
             console.log(err);
