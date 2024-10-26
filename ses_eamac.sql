@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 26 sep. 2024 à 18:20
+-- Généré le : sam. 26 oct. 2024 à 13:53
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -80,19 +80,21 @@ CREATE TABLE `contractuel` (
 --
 
 CREATE TABLE `cours` (
+  `id_cours` varchar(50) NOT NULL,
   `id_classe` varchar(50) NOT NULL,
   `id_matiere` varchar(50) NOT NULL,
   `id_enseignant` varchar(50) NOT NULL,
-  `date` date DEFAULT current_timestamp()
+  `date` date DEFAULT NULL,
+  `actif` varchar(5) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `cours`
 --
 
-INSERT INTO `cours` (`id_classe`, `id_matiere`, `id_enseignant`, `date`) VALUES
-('1eigfhrt', 'emishrecedre', 'bonhdscqssuhssh', '2024-09-19'),
-('1eigfhrt', 'mathjdchdhv', 'aboubahjzdhvzehdvzhv', '2024-09-19');
+INSERT INTO `cours` (`id_cours`, `id_classe`, `id_matiere`, `id_enseignant`, `date`, `actif`) VALUES
+('frfddfffdsds', '1eigfhrt', 'emishrecedre', 'bonhdscqssuhssh', '2024-09-10', 'actif'),
+('kjyfggtgrgr', '1eigfhrt', 'mathjdchdhv', 'aboubahjzdhvzehdvzhv', '2024-09-02', 'inact');
 
 -- --------------------------------------------------------
 
@@ -162,6 +164,25 @@ INSERT INTO `enseignant` (`id_enseignant`, `mdp`) VALUES
 ('klaghdscqssuhssh', 'cdcdxqcdsqddd'),
 ('marscqssuhssh', 'cdcdxqcdsqddd'),
 ('rabscqssuhssh', 'cdcdxqcdsqddd');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `evaluations`
+--
+
+CREATE TABLE `evaluations` (
+  `id_evaluation` varchar(50) NOT NULL,
+  `id_eleve` varchar(50) NOT NULL,
+  `id_cours` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `evaluations`
+--
+
+INSERT INTO `evaluations` (`id_evaluation`, `id_eleve`, `id_cours`) VALUES
+('rtrrfsfsrthggt', 'balrtgzz', 'frfddfffdsds');
 
 -- --------------------------------------------------------
 
@@ -302,22 +323,22 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`id_utilisateur`, `nom`, `prenom`, `telephone`, `email`, `role`, `mdp`) VALUES
-('aboubahjzdhvzehdvzhv', 'MOUSSA', 'Aboubacar', '82083814', 'awballo22@gmail.com', '', 'uyhytehthtdr'),
-('arzhdscqssuhssh', 'Arzika', 'ANSOUMANE', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('balrtgzz', 'BALLO', 'Abdoul Wahab', '82083814', 'awballo22@gmail.com', '', 'baldffdfdvdfvfdbfggb'),
-('bilghdscqssuhssh', 'Ousmane', 'BILLO', '64600036', 'awballo22@gmail.com', '', 'bilcdcdxqcdsqddd'),
-('bonhdscqssuhssh', 'Esai', 'BONOG', 'awballo22@gmail.com', 'awballo22@gmail.com', '', 'boncdcdxqcdsqddd'),
-('djakghdscqssuhssh', 'Djakaridja', 'COULIBALY', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('gakghdscqssuhssh', 'Abdel Kader', 'GAKOU', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('ganrtgzz', 'GANAME', 'Aly', '82083814', 'awballo22@gmail.com', '', 'gandffdfdvdfvfdbfggb'),
-('ibdiahejjkqsxkjbbj', 'DIARRA', 'Ibrahima', '78452235', 'awballo22@gmail.com', '', 'dzjnkjnjnxds'),
-('kassan', 'SANOGO', 'Kassoum', '87542563', 'awballo22@gmail.com', '', 'cdshcdhscjhj'),
-('klaghdscqssuhssh', 'Klamadji', 'NANYENGUEM', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('marscqssuhssh', 'Abdoulaye', 'MARANGA', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('rabscqssuhssh', 'Mahamane', 'RABIOU', '64600036', 'awballo22@gmail.com', '', 'cdcdxqcdsqddd'),
-('sabfgre', 'SABONE', 'Celestin Emmanuel', '82083814', 'awballo22@gmail.com', '', 'dffdfdvdfvfdbfggb'),
-('thiallskss', 'THIAM', 'Ousmane', '82083414', 'awballo22@gmail.com', '', 'hkvhvkhvv'),
-('tourqhshs', 'TOURE', 'Ousmane Sambou', '82083814', 'awballo22@gmail.com', '', 'ytrtdytrgrsgr');
+('aboubahjzdhvzehdvzhv', 'MOUSSA', 'Aboubacar', '82083814', 'awballo22@gmail.com', 'vacataire', 'uyhytehthtdr'),
+('arzhdscqssuhssh', 'Arzika', 'ANSOUMANE', '64600036', 'awballo22@gmail.com', 'vacataire', 'cdcdxqcdsqddd'),
+('balrtgzz', 'BALLO', 'Abdoul Wahab', '82083814', 'awballo22@gmail.com', 'eleve', 'nnn'),
+('bilghdscqssuhssh', 'Ousmane', 'BILLO', '64600036', 'awballo22@gmail.com', 'vacataire', 'bilcdcdxqcdsqddd'),
+('bonhdscqssuhssh', 'Esai', 'BONOG', 'awballo22@gmail.com', 'awballo22@gmail.com', 'instructeur', 'boncdcdxqcdsqddd'),
+('djakghdscqssuhssh', 'Djakaridja', 'COULIBALY', '64600036', 'awballo22@gmail.com', 'instructeur', 'cdcdxqcdsqddd'),
+('gakghdscqssuhssh', 'Abdel Kader', 'GAKOU', '64600036', 'awballo22@gmail.com', 'instructeur', 'cdcdxqcdsqddd'),
+('ganrtgzz', 'GANAME', 'Aly', '82083814', 'awballo22@gmail.com', 'eleve', 'gandffdfdvdfvfdbfggb'),
+('ibdiahejjkqsxkjbbj', 'DIARRA', 'Ibrahima', '78452235', 'awballo22@gmail.com', 'stagiaire', 'dzjnkjnjnxds'),
+('kassan', 'SANOGO', 'Kassoum', '87542563', 'awballo22@gmail.com', 'eleve', 'cdshcdhscjhj'),
+('klaghdscqssuhssh', 'Klamadji', 'NANYENGUEM', '64600036', 'awballo22@gmail.com', 'instructeur', 'cdcdxqcdsqddd'),
+('marscqssuhssh', 'Abdoulaye', 'MARANGA', '64600036', 'awballo22@gmail.com', 'vacataire', 'cdcdxqcdsqddd'),
+('rabscqssuhssh', 'Mahamane', 'RABIOU', '64600036', 'awballo22@gmail.com', 'instructeur', 'cdcdxqcdsqddd'),
+('sabfgre', 'SABONE', 'Celestin Emmanuel', '82083814', 'awballo22@gmail.com', 'eleve', 'dffdfdvdfvfdbfggb'),
+('thiallskss', 'THIAM', 'Ousmane', '82083414', 'awballo22@gmail.com', 'eleve', 'hkvhvkhvv'),
+('tourqhshs', 'TOURE', 'Ousmane Sambou', '82083814', 'awballo22@gmail.com', 'stagiaire', 'ytrtdytrgrsgr');
 
 -- --------------------------------------------------------
 
@@ -368,9 +389,10 @@ ALTER TABLE `contractuel`
 -- Index pour la table `cours`
 --
 ALTER TABLE `cours`
-  ADD PRIMARY KEY (`id_classe`,`id_matiere`,`id_enseignant`),
+  ADD PRIMARY KEY (`id_cours`),
   ADD KEY `id_matiere` (`id_matiere`),
-  ADD KEY `id_enseignant` (`id_enseignant`);
+  ADD KEY `id_enseignant` (`id_enseignant`),
+  ADD KEY `id_classe` (`id_classe`,`id_matiere`,`id_enseignant`) USING BTREE;
 
 --
 -- Index pour la table `division`
@@ -391,6 +413,13 @@ ALTER TABLE `eleve`
 --
 ALTER TABLE `enseignant`
   ADD PRIMARY KEY (`id_enseignant`);
+
+--
+-- Index pour la table `evaluations`
+--
+ALTER TABLE `evaluations`
+  ADD KEY `evaluation_ibfk_1` (`id_cours`),
+  ADD KEY `evaluation_ibfk_2` (`id_eleve`);
 
 --
 -- Index pour la table `instructeur`
@@ -472,14 +501,6 @@ ALTER TABLE `contractuel`
   ADD CONSTRAINT `contractuel_ibfk_1` FOREIGN KEY (`id_enseignant`) REFERENCES `enseignant` (`id_enseignant`);
 
 --
--- Contraintes pour la table `cours`
---
-ALTER TABLE `cours`
-  ADD CONSTRAINT `cours_ibfk_1` FOREIGN KEY (`id_classe`) REFERENCES `classe` (`id_classe`),
-  ADD CONSTRAINT `cours_ibfk_2` FOREIGN KEY (`id_matiere`) REFERENCES `matieres` (`id_matiere`),
-  ADD CONSTRAINT `cours_ibfk_3` FOREIGN KEY (`id_enseignant`) REFERENCES `enseignant` (`id_enseignant`);
-
---
 -- Contraintes pour la table `division`
 --
 ALTER TABLE `division`
@@ -497,6 +518,13 @@ ALTER TABLE `eleve`
 --
 ALTER TABLE `enseignant`
   ADD CONSTRAINT `enseignant_ibfk_1` FOREIGN KEY (`id_enseignant`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `evaluations`
+--
+ALTER TABLE `evaluations`
+  ADD CONSTRAINT `evaluation_ibfk_1` FOREIGN KEY (`id_cours`) REFERENCES `cours` (`id_cours`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `evaluation_ibfk_2` FOREIGN KEY (`id_eleve`) REFERENCES `eleve` (`id_eleve`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `instructeur`
