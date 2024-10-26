@@ -6,8 +6,6 @@ import * as  Yup from 'yup';
 import axios from "../../config/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import AlertSuccess from "./AlertSuccess";
-
 export default function Login()
 {   
     const navigate=useNavigate()
@@ -25,15 +23,24 @@ export default function Login()
         axios.post("/login",values)
         .then(res=>{
             
-            switch(res.data.role){
+            let id_user=res.data.user.id_utilisateur;
+            let token=res.data.token
+            // il faudra gerer après le cas ou le user n'existe pas dans la db
+
+            switch(res.data.user.role){
+                
                 case "eleve":
-                    let studentInfo={}
-                    axios.post("/findClasse",res.data.id_utilisateur)
+                    axios.post("/findClasse",{id_user})
                     .then(res2=>{
-                        studentInfo={...res.data,...res2.data.id_classe}
+                        let id_classe=res2.data
+                        let studentInfo={...res.data,id_classe}
+                        localStorage.setItem("token",token);
+                        console.log(token);
+                        
+                        
                         navigate("/student-board",{state:{user:studentInfo}})
                     })
-                    
+
                 break;
                 case "stagiaire":
                     navigate("/stagiaire-board",{state:{user:res.data.user}});

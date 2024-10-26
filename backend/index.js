@@ -1,20 +1,23 @@
 import express from "express";
 import cors from 'cors';
-//import { db } from "./config/db.js";
-import { randomPassword, uuid } from "./services/functions.js";
+import { findAllEvalStudentClasse, randomPassword, uuid } from "./services/functions.js";
 import { hash } from "bcrypt";
 import bcrypt from 'bcrypt';
 import {sendGmail,isUserExist,isEleve,isStagiaire } from "./services/functions.js";
+import { findClasse } from "./services/functions.js";
+import jwt from "jsonwebtoken"
 const salt = 10;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-//db.connect((err) => { !err ? console.log("Connection database OK") : console.log(err) })
+
+//const dateDuJour=new Date().toLocaleString;
 
 app.post('/login',async (req,res)=>{
     const email=req.body.email;
     const mdp=req.body.mdp
+    
    if((await isUserExist(email,mdp)).erreur){
     
     console.log("il y a erreur");
@@ -27,35 +30,59 @@ app.post('/login',async (req,res)=>{
             res.send("nExistePas");
         }
         else{
-            const user=await isUserExist(email,mdp);      
-            // switch(user.userInfo.role){
-            //     case "eleve":
-            //         res.send("eleve");
-            //         break;
-            //     case "stagiaire":
-            //         res.send("stagiaire");
-            //         break;
-            //     default:
-            //         res.send("enseignant");
-            //         break;
-            }
-            // if(await isEleve((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
-            //     console.log("Il existe et il est élève");
-            //     user.role="eleve";
-            //     console.log(user);
-                
-            //     res.send('eleve')
-            // }
-            // else{
-            //     if(await isStagiaire((await isUserExist(email,mdp)).userInfo.id_utilisateur)){
-            //         console.log("Il existe et il est stagiaire");
-            //         user.role="stagiaire";
-            //         res.send('stagiaire')
-            //     }
-            // }
-        //}
-               
+            const result=await isUserExist(email,mdp); 
+            const user=result.userInfo;
+            //const data=result.userInfo
+            console.log("bon");
+            
+            const token=jwt.sign({user},"jwtSecretKey",{expiresIn:300})
+            res.send({Login:true,token,user});
+            }               
     }
+})
+
+//Verifier si le user est toujours authentifé ie un jeton valide
+
+const verifyUser=async (req,res,next)=>{
+    const authHeader=req.headers["authorization"];
+    const token= authHeader && authHeader.split(' ')[1];
+    
+    if(!token){
+        console.log("not token");
+        
+        res.status(401).send("vous n'etes pas autorisé")
+    }
+    try{
+        const userDecoded=await jwt.verify(token,"jwtSecretKey");
+        req.user=userDecoded;
+        console.log(userDecoded);
+        
+        next();
+    }
+    catch(err){
+        res.status(401).send("vous n'etes pas autorisé")
+    }
+}
+
+app.get("/checkAuthentication",verifyUser,async(req,res)=>{
+    const userSystem=await req.user?.user;
+    if(!userSystem){
+        console.log("no user");
+        
+        res.status(401).send("vous n'etes pas autorisé")                
+    }
+    try{
+        const id_user= userSystem.id_utilisateur;
+        const id_classe= await findClasse(id_user);
+        const data=await findAllEvalStudentClasse(id_classe)
+        console.log(data);
+        
+        await res.status(200).send({data,userSystem});
+    }
+    catch(err){
+        res.status(500).send("Erreur interne au serveur")
+    }
+    
 })
 
 app.post('/insertStudent', async (req,res) => {
@@ -99,10 +126,13 @@ app.post('/insertStudent', async (req,res) => {
     // })
 })
 
-app.post("/findClasse",(req,res)=>{
-    console.log(req.body);
-    res.send("1eigfhrt")
+ app.post("/findClasse",async (req,res)=>{
+    res.send(await findClasse(req.body.id_user))
+    
+});
+app.post("/findAllEvalStudentClasse",async (req,res)=>{
+    res.send(await findAllEvalStudentClasse(req.body.id_classe));
     
 })
 
-app.listen(5000, () => console.log("Listening....."));
+app.listen(5000, () => console.log("Listening..... 5000"));

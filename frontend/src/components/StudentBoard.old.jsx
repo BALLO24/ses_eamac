@@ -33,10 +33,21 @@ export default function StudentBoard() {
     ];
     const [isAuthenticated,setIsAuthenticated]=useState(false);
     const [data,setData]=useState([])
+    //const location=useLocation();
     const[user,setUser]=useState("")
+    //const [test,setTest]=useState()
 
-    useEffect(()=>{        
+    useEffect(()=>{
+        //const user=location.state?.user;
+        //const token=location.state?.token;
+        const token=localStorage.getItem("token")
+        //let id_classe=user?.id_classe
+        //setUser(user);
+        console.log(token);
+        
 
+        //verifier s'il est toujours authentifié
+        if(token){
             axios.get("/checkAuthentication")
             .then(res=>{
                     if(res.status===200){
@@ -48,6 +59,7 @@ export default function StudentBoard() {
                     }})
             .catch(e=>{
                 throw e })
+        }
     },[]);
     
     
